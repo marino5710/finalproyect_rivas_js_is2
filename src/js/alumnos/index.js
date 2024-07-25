@@ -68,8 +68,8 @@ const getAlumnos = async () => {
                     celda3.innerText = alumno.alumno_nombre2;
                     celda4.innerText = alumno.alumno_apellido1;
                     celda5.innerText = alumno.alumno_apellido2;
-                    celda6.innerText = alumno.alumno_grado;
-                    celda7.innerText = alumno.alumno_arma_o_servicio;
+                    celda6.innerText = alumno.grado_nombre;
+                    celda7.innerText = alumno.arma_nombre;
                     celda8.innerText = alumno.alumno_nacionalidad;
 
                     buttonModificar.textContent = 'Modificar'
@@ -153,8 +153,8 @@ const guardarAlumno = async (e) => {
         // alert(mensaje)
 
         if (codigo == 1 && respuesta.status == 200) {
-            getAlumnos();
             formulario.reset();
+            getAlumnos();
         } else {
             console.log(detalle);
         }
@@ -166,11 +166,12 @@ const guardarAlumno = async (e) => {
 }
 
 const llenardatos = (alumno) => {
-    formulario.alumno_id.value = alumno.alumno_id
+    formulario.alumno_id = alumno.alumno_id
     formulario.alumno_nombre1.value = alumno.alumno_nombre1
     formulario.alumno_nombre2.value = alumno.alumno_nombre2
     formulario.alumno_apellido1.value = alumno.alumno_apellido1
     formulario.alumno_apellido2.value = alumno.alumno_apellido2
+    formulario.alumno_grado.value = alumno.alumno_grado
     formulario.alumno_arma_o_servicio.value = alumno.alumno_arma_o_servicio
     formulario.alumno_nacionalidad.value = alumno.alumno_nacionalidad
     btnGuardar.parentElement.style.display = 'none'
@@ -180,14 +181,15 @@ const llenardatos = (alumno) => {
     btnCancelar.parentElement.style.display = ''
 }
 
-const cancelar = (alumno) => {
-    formulario.alumno_id.value = alumno.alumno_id
-    formulario.alumno_nombre1.value = alumno.alumno_nombre1
-    formulario.alumno_nombre2.value = alumno.alumno_nombre2
-    formulario.alumno_apellido1.value = alumno.alumno_apellido1
-    formulario.alumno_apellido2.value = alumno.alumno_apellido2
-    formulario.alumno_arma_o_servicio.value = alumno.alumno_arma_o_servicio
-    formulario.alumno_nacionalidad.value = alumno.alumno_nacionalidad
+const cancelar = () => {
+    formulario.alumno_id.value = ''
+    formulario.alumno_nombre1.value = ''
+    formulario.alumno_nombre2.value = ''
+    formulario.alumno_apellido1.value = ''
+    formulario.alumno_apellido2.value = ''
+    formulario.alumno_grado.value = ''
+    formulario.alumno_arma_o_servicio.value = ''
+    formulario.alumno_nacionalidad.value = ''
     btnGuardar.parentElement.style.display = ''
     btnBuscar.parentElement.style.display = ''
     btnLimpiar.parentElement.style.display = ''
@@ -201,7 +203,7 @@ const cancelar = (alumno) => {
     const url = '/proyecto_final_rivas_is1/controllers/alumnos/index.php';
     const formData = new FormData(formulario);
     formData.append('tipo', 2);
-    formData.append('alumno_id', formulario.alumno_id.value);
+    formData.append('alumno_id', formulario.alumno_id);
     const config = {
         method: 'POST',
         body: formData
@@ -292,7 +294,7 @@ const eliminarAlumno = async (alumno_id) => {
         console.log('Respuesta recibida:', data);
         const { mensaje, codigo } = data;
         if (respuesta.ok && codigo === 1) {
-            getClientes();
+            getAlumnos();
             Swal.mixin({
                 toast: true,
                 position: "top-end",
@@ -340,8 +342,6 @@ const eliminarAlumno = async (alumno_id) => {
     }
 }
 
-
-    
 
 formulario.addEventListener('submit', guardarAlumno)
 btnBuscar.addEventListener('click', getAlumnos)

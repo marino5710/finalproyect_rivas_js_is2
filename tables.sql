@@ -1,13 +1,15 @@
-CREATE TABLE Alumnos (
+CREATE TABLE alumnos (
     alumno_id SERIAL PRIMARY KEY NOT NULL,
     alumno_nombre1 VARCHAR(30) NOT NULL,
     alumno_nombre2 VARCHAR(30) NOT NULL,
     alumno_apellido1 VARCHAR(30) NOT NULL,
     alumno_apellido2 VARCHAR(30),
-    alumno_grado VARCHAR(30) NOT NULL,
-    alumno_arma_o_servicio VARCHAR(30) NOT NULL,
+    alumno_grado INT NOT NULL,
+    alumno_arma_o_servicio INT NOT NULL,
     alumno_nacionalidad VARCHAR(30) NOT NULL,
-    alumno_situacion SMALLINT DEFAULT 1
+    alumno_situacion SMALLINT DEFAULT 1,
+    FOREIGN KEY (alumno_grado) REFERENCES grados(grado_id),
+    FOREIGN KEY (alumno_arma_o_servicio) REFERENCES armas(arma_id)
 );
 
 CREATE TABLE Materias (
@@ -42,3 +44,23 @@ CREATE TABLE armas(
 
 
 INSERT INTO armas (arma_nombre) VALUES ('Infanteria');
+INSERT INTO armas (arma_nombre) VALUES ('Caballeria');
+INSERT INTO armas (arma_nombre) VALUES ('Artilleria');
+INSERT INTO armas (arma_nombre) VALUES ('Aviacion');
+INSERT INTO armas (arma_nombre) VALUES ('Ingenieros');
+INSERT INTO armas (arma_nombre) VALUES ('Material de Guerra');
+INSERT INTO armas (arma_nombre) VALUES ('Intendencia');
+INSERT INTO armas (arma_nombre) VALUES ('Policia Militar');
+INSERT INTO armas (arma_nombre) VALUES ('Transmisiones Militares');
+INSERT INTO armas (arma_nombre) VALUES ('Sanidad Militar');
+INSERT INTO armas (arma_nombre) VALUES ('Marina');
+
+
+
+INSERT INTO grados (grado_nombre) VALUES ('Subteniente');
+INSERT INTO grados (grado_nombre) VALUES ('Teniente');
+INSERT INTO grados (grado_nombre) VALUES ('Capitan 2do.');
+INSERT INTO grados (grado_nombre) VALUES ('Alferez de Fragata');
+INSERT INTO grados (grado_nombre) VALUES ('Alferez de Navio');
+INSERT INTO grados (grado_nombre) VALUES ('Teniente de Fragata');
+

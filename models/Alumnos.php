@@ -39,7 +39,11 @@ class Alumnos extends Conexion
 
     public function buscar()
     {
-        $sql = "SELECT * from alumnos where alumno_situacion = 1 ";
+        $sql = "SELECT alumnos.*, grados.*, armas.*
+        FROM alumnos
+        INNER JOIN grados ON alumnos.alumno_grado = grados.grado_id
+        INNER JOIN armas ON alumnos.alumno_arma_o_servicio = armas.arma_id
+        WHERE alumnos.alumno_situacion = 1;";
 
         if ($this->alumno_nombre1 != '') {
             $sql .= " and alumno_nombre1 like '%$this->alumno_nombre1%' ";
@@ -75,10 +79,11 @@ class Alumnos extends Conexion
 
 
 
-    public function modificar(){
+    public function modificar()
+    {
         $sql = "UPDATE Alumnos SET alumno_nombre1 = '$this->alumno_nombre1', alumno_nombre2 = '$this->alumno_nombre2', alumno_apellido1 = '$this->alumno_apellido1', alumno_apellido2 = '$this->alumno_apellido2', alumno_grado = '$this->alumno_grado', alumno_arma_o_servicio = '$this->alumno_arma_o_servicio', alumno_nacionalidad = '$this->alumno_nacionalidad' WHERE alumno_id = $this->alumno_id ";
         $resultado = $this->ejecutar($sql);
-        return $resultado; 
+        return $resultado;
     }
 
     public function eliminar()
@@ -88,19 +93,21 @@ class Alumnos extends Conexion
         return $resultado;
     }
 
-    public function mostrarAlumnos(){
-        $sql ="SELECT * FROM Alumnos where alumno_situacion = 1";
+    public function mostrarAlumnos()
+    {
+        $sql = "SELECT * FROM Alumnos where alumno_situacion = 1";
         $resultado = self::servir($sql);
         return $resultado;
     }
-    
-    public function imprimir_nota($alumno_id){
-        $sql ="SELECT DISTINCT alumno_nombre1, alumno_nombre2, alumno_apellido1, alumno_apellido2, alumno_grado, alumno_arma_o_servicio,
+
+    public function imprimir_nota($alumno_id)
+    {
+        $sql = "SELECT DISTINCT alumno_nombre1, alumno_nombre2, alumno_apellido1, alumno_apellido2, alumno_grado, alumno_arma_o_servicio,
         alumno_nacionalidad, materia_nombre, nota  
         from notas inner join alumnos on alumno_id = nota_alumno_id
         inner join materias on nota_materia_id = materia_id where alumno_id = $alumno_id";
         $resultado = self::servir($sql);
-        
+
         return $resultado;
     }
 }
