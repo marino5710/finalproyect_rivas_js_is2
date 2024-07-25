@@ -37,7 +37,7 @@ $grados = $verGrados->mostrarGrados();
             <div class="col">
                 <label for="alumno_grado">SELECCIONE SU GRADO</label>
                 <br>
-                <select id="alumno_arma_o_servicio" name="alumno_arma_o_servicio" class="form-control" required>
+                <select id="alumno_grado" name="alumno_grado" class="form-control" required>
                     <option value="">SELECCIONE</option>
                     <?php foreach ($grados as $grado): ?>
                         <option value="<?= $grado['grado_id'] ?>">
@@ -49,7 +49,7 @@ $grados = $verGrados->mostrarGrados();
             <div class="col">
                 <label for="alumno_arma_o_servicio">ARMA O SERVICIO</label>
                 <br>
-                <select id="alumno_grado" name="alumno_grado" class="form-control" required>
+                <select id="alumno_arma_o_servicio" name="alumno_arma_o_servicio" class="form-control" required>
                     <option value="">SELECCIONE</option>
                     <?php foreach ($armas as $arma): ?>
                         <option value="<?= $arma['arma_id'] ?>">

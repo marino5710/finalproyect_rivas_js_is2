@@ -10,15 +10,9 @@ const formulario = document.querySelector('form')
 btnModificar.parentElement.style.display = 'none'
 btnCancelar.parentElement.style.display = 'none'
 
-const getAlumnos = async (alerta = 'si') => {
-    const nombre1 = formulario.alumno_nombre1.value.trim()
-    const nombre2 = formulario.alumno_nombre2.value.trim()
-    const apellido1 = formulario.alumno_apellido1.value.trim()
-    const apellido2 = formulario.alumno_apellido2.value.trim()
-    const grado = formulario.alumno_grado.value.trim()
-    const alumno_arma_o_servicio = formulario.alumno_arma_o_servicio.value.trim()
-    const nacionalidad = formulario.alumno_nacionalidad.value.trim()
-    const url = `/proyecto_final_rivas_is1/controllers/alumnos/index.php?alumno_nombre1=${nombre1}&alumno_nombre2=${nombre2}&alumno_apellido1=${apellido1}&alumno_apellido2=${apellido2}&alumno_grado=${grado}&alumno_arma_o_servicio=${alumno_arma_o_servicio}&alumno_nacionalida=${nacionalidad}`
+const getMaterias = async (alerta = 'si') => {
+    const materia = formulario.materia_nombre.value.trim()
+    const url = `/proyecto_final_rivas_is1/controllers/materias/index.php?materia_nombre=${materia}`
     const config = {
         method: 'GET'
     }
@@ -28,7 +22,7 @@ const getAlumnos = async (alerta = 'si') => {
         const data = await respuesta.json();
         console.log(data);
 
-        tablaAlumnos.tBodies[0].innerHTML = ''
+        tablaMaterias.tBodies[0].innerHTML = ''
         const fragment = document.createDocumentFragment()
         let contador = 1;
 
@@ -36,6 +30,7 @@ const getAlumnos = async (alerta = 'si') => {
 
             if(alerta == 'si'){
 
+                
                 Swal.mixin({
                     toast: true,
                     position: "top-end",
@@ -43,7 +38,7 @@ const getAlumnos = async (alerta = 'si') => {
                     timer: 3000,
                     timerProgressBar: true,
                     icon: "success",
-                    title: 'Alumnos Encontrados',
+                    title: 'Materias Encontrados',
                     didOpen: (toast) => {
                         toast.onmouseenter = Swal.stopTimer;
                         toast.onmouseleave = Swal.resumeTimer;
@@ -52,52 +47,32 @@ const getAlumnos = async (alerta = 'si') => {
             }
 
             if (data.length > 0) {
-                data.forEach(alumno => {
+                data.forEach(materia => {
                     const tr = document.createElement('tr')
                     const celda1 = document.createElement('td')
                     const celda2 = document.createElement('td')
-                    const celda3 = document.createElement('td')
-                    const celda4 = document.createElement('td')
-                    const celda5 = document.createElement('td')
-                    const celda6 = document.createElement('td')
-                    const celda7 = document.createElement('td')
-                    const celda8 = document.createElement('td')
-                    const celda9 = document.createElement('td')
-                    const celda10 = document.createElement('td')
                     const buttonModificar = document.createElement('button')
                     const buttonEliminar = document.createElement('button')
-
+                    
                     celda1.innerText = contador;
-                    celda2.innerText = alumno.alumno_nombre1;
-                    celda3.innerText = alumno.alumno_nombre2;
-                    celda4.innerText = alumno.alumno_apellido1;
-                    celda5.innerText = alumno.alumno_apellido2;
-                    celda6.innerText = alumno.grado_nombre;
-                    celda7.innerText = alumno.arma_nombre;
-                    celda8.innerText = alumno.alumno_nacionalidad;
+                    celda2.innerText = materia.materia_nombre;
 
                     buttonModificar.textContent = 'Modificar'
                     buttonModificar.classList.add('btn', 'btn-warning', 'w-100')
-                    buttonModificar.addEventListener('click', () => llenardatos(alumno))
+                    buttonModificar.addEventListener('click', () => llenardatos(materia))
 
 
                     buttonEliminar.textContent = 'Eliminar';
                     buttonEliminar.classList.add('btn', 'btn-danger', 'w-100');
-                    buttonEliminar.addEventListener('click', () => eliminarAlumno(alumno.alumno_id));
+                    buttonEliminar.addEventListener('click', () => eliminarMateria(materia.materia_id));
 
-                    celda9.appendChild(buttonModificar)
-                    celda10.appendChild(buttonEliminar)
+                    celda3.appendChild(buttonModificar)
+                    celda4.appendChild(buttonEliminar)
 
                     tr.appendChild(celda1)
                     tr.appendChild(celda2)
                     tr.appendChild(celda3)
                     tr.appendChild(celda4)
-                    tr.appendChild(celda5)
-                    tr.appendChild(celda6)
-                    tr.appendChild(celda7)
-                    tr.appendChild(celda8)
-                    tr.appendChild(celda9)
-                    tr.appendChild(celda10)
                     fragment.appendChild(tr);
 
                     contador++
@@ -106,7 +81,7 @@ const getAlumnos = async (alerta = 'si') => {
             } else {
                 const tr = document.createElement('tr')
                 const td = document.createElement('td')
-                td.innerText = 'No hay Alumnos Disponibles'
+                td.innerText = 'No hay Materias Disponibles'
                 td.colSpan = 5;
 
                 tr.appendChild(td)
@@ -116,7 +91,7 @@ const getAlumnos = async (alerta = 'si') => {
             console.log('hola');
         }
 
-        tablaAlumnos.tBodies[0].appendChild(fragment)
+        tablaMaterias.tBodies[0].appendChild(fragment)
     } catch (error) {
         console.log(error);
     }
@@ -124,13 +99,13 @@ const getAlumnos = async (alerta = 'si') => {
 
 
 
-const guardarAlumno = async (e) => {
+const guardarMateria = async (e) => {
     e.preventDefault();
     btnGuardar.disabled = true;
-    const url = '/proyecto_final_rivas_is1/controllers/alumnos/index.php'
+    const url = '/proyecto_final_rivas_is1/controllers/materias/index.php'
     const formData = new FormData(formulario)
     formData.append('tipo', 1)
-    formData.delete('alumno_id')
+    formData.delete('materia_id')
     const config = {
         method: 'POST',
         body: formData
@@ -156,8 +131,8 @@ const guardarAlumno = async (e) => {
         // alert(mensaje)
 
         if (codigo == 1 && respuesta.status == 200) {
-            getAlumnos(alerta = 'no');
             formulario.reset();
+            getMaterias(alerta = 'no');
         } else {
             console.log(detalle);
         }
@@ -168,15 +143,9 @@ const guardarAlumno = async (e) => {
     btnGuardar.disabled = false;
 }
 
-const llenardatos = (alumno) => {
-    formulario.alumno_id = alumno.alumno_id
-    formulario.alumno_nombre1.value = alumno.alumno_nombre1
-    formulario.alumno_nombre2.value = alumno.alumno_nombre2
-    formulario.alumno_apellido1.value = alumno.alumno_apellido1
-    formulario.alumno_apellido2.value = alumno.alumno_apellido2
-    formulario.alumno_grado.value = alumno.alumno_grado
-    formulario.alumno_arma_o_servicio.value = alumno.alumno_arma_o_servicio
-    formulario.alumno_nacionalidad.value = alumno.alumno_nacionalidad
+const llenardatos = (materia) => {
+    formulario.materia_id = materia.materia_id
+    formulario.materia_nombre.value = materia.materia_nombre
     btnGuardar.parentElement.style.display = 'none'
     btnBuscar.parentElement.style.display = 'none'
     btnLimpiar.parentElement.style.display = 'none'
@@ -185,14 +154,8 @@ const llenardatos = (alumno) => {
 }
 
 const cancelar = () => {
-    formulario.alumno_id.value = ''
-    formulario.alumno_nombre1.value = ''
-    formulario.alumno_nombre2.value = ''
-    formulario.alumno_apellido1.value = ''
-    formulario.alumno_apellido2.value = ''
-    formulario.alumno_grado.value = ''
-    formulario.alumno_arma_o_servicio.value = ''
-    formulario.alumno_nacionalidad.value = ''
+    formulario.materia_id.value = ''
+    formulario.materia_nombre.value = ''
     btnGuardar.parentElement.style.display = ''
     btnBuscar.parentElement.style.display = ''
     btnLimpiar.parentElement.style.display = ''
@@ -203,10 +166,10 @@ const cancelar = () => {
     const modificar = async (e) => {
     e.preventDefault();
     btnModificar.disabled = true;
-    const url = '/proyecto_final_rivas_is1/controllers/alumnos/index.php';
+    const url = '/proyecto_final_rivas_is1/controllers/materia/index.php';
     const formData = new FormData(formulario);
     formData.append('tipo', 2);
-    formData.append('alumno_id', formulario.alumno_id);
+    formData.append('materia_id', formulario.materia_id);
     const config = {
         method: 'POST',
         body: formData
@@ -280,11 +243,11 @@ const cancelar = () => {
 }
 
 
-const eliminarAlumno = async (alumno_id) => {
+const eliminarMateria = async (materia_id) => {
     
-    const url = '/proyecto_final_rivas_is1/controllers/alumnos/index.php';
+    const url = '/proyecto_final_rivas_is1/controllers/materias/index.php';
     const formData = new FormData();
-    formData.append('alumno_id', alumno_id);
+    formData.append('materia_id', materia_id);
     formData.append('tipo', 3);
     const config = {
         method: 'POST',
