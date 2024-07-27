@@ -1,9 +1,16 @@
 <?php include_once '../../includes/header.php' ?>
 
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ ?>
+
+
 
 <h1 class="text-center">FORMULARIO DE REGISTRO DE MATERIAS</h1>
 <div class="row justify-content-center">
-    <form action="../../controladores/materias/guardar.php" method="POST" class="border bg-light shadow rounded p-2">
+    <form class="border bg-light shadow rounded p-2">
         <div class="row p-4">
             <div class="col-4 p-5"></div>
             <div class="col-4">

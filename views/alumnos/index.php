@@ -14,7 +14,7 @@ $grados = $verGrados->mostrarGrados();
 
 <h1 class="text-center">FORMULARIO DE REGISTRO DE ALUMNOS</h1>
 <div class="row justify-content-center">
-    <form action="../../controladores/alumno/guardar.php" method="POST" class="border bg-light shadow rounded p-2">
+    <form class="border bg-light shadow rounded p-2">
         <div class="row">
             <div class="col-4">
                 <label for="alumno_nombre1">PRIMER NOMBRE</label>

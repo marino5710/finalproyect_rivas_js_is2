@@ -4,8 +4,10 @@ const btnEliminar = document.getElementById('btnEliminar')
 const btnBuscar = document.getElementById('btnBuscar')
 const btnCancelar = document.getElementById('btnCancelar')
 const btnLimpiar = document.getElementById('btnLimpiar')
-const tablaAlumnos = document.getElementById('tablaAlumnos')
+const tablaMaterias = document.getElementById('tablaMaterias')
 const formulario = document.querySelector('form')
+
+
 
 btnModificar.parentElement.style.display = 'none'
 btnCancelar.parentElement.style.display = 'none'
@@ -16,7 +18,6 @@ const getMaterias = async (alerta = 'si') => {
     const config = {
         method: 'GET'
     }
-
     try {
         const respuesta = await fetch(url, config);
         const data = await respuesta.json();
@@ -28,9 +29,9 @@ const getMaterias = async (alerta = 'si') => {
 
         if (respuesta.status == 200) {
 
-            if(alerta == 'si'){
+            if (alerta == 'si') {
 
-                
+
                 Swal.mixin({
                     toast: true,
                     position: "top-end",
@@ -46,14 +47,17 @@ const getMaterias = async (alerta = 'si') => {
                 }).fire();
             }
 
+
             if (data.length > 0) {
                 data.forEach(materia => {
                     const tr = document.createElement('tr')
                     const celda1 = document.createElement('td')
                     const celda2 = document.createElement('td')
+                    const celda3 = document.createElement('td')
+                    const celda4 = document.createElement('td')
                     const buttonModificar = document.createElement('button')
                     const buttonEliminar = document.createElement('button')
-                    
+
                     celda1.innerText = contador;
                     celda2.innerText = materia.materia_nombre;
 
@@ -163,10 +167,10 @@ const cancelar = () => {
     btnCancelar.parentElement.style.display = 'none'
 }
 
-    const modificar = async (e) => {
+const modificar = async (e) => {
     e.preventDefault();
     btnModificar.disabled = true;
-    const url = '/proyecto_final_rivas_is1/controllers/materia/index.php';
+    const url = '/proyecto_final_rivas_is1/controllers/materias/index.php';
     const formData = new FormData(formulario);
     formData.append('tipo', 2);
     formData.append('materia_id', formulario.materia_id);
@@ -196,7 +200,7 @@ const cancelar = () => {
                 }
             }).fire();
             formulario.reset()
-            getAlumnos(alerta = 'no');
+            getMaterias(alerta = 'no');
             btnBuscar.parentElement.style.display = ''
             btnGuardar.parentElement.style.display = ''
             btnLimpiar.parentElement.style.display = ''
@@ -244,7 +248,7 @@ const cancelar = () => {
 
 
 const eliminarMateria = async (materia_id) => {
-    
+
     const url = '/proyecto_final_rivas_is1/controllers/materias/index.php';
     const formData = new FormData();
     formData.append('materia_id', materia_id);
@@ -273,7 +277,7 @@ const eliminarMateria = async (materia_id) => {
                     toast.onmouseleave = Swal.resumeTimer;
                 }
             }).fire();
-            getAlumnos(alerta = 'no');
+            getMaterias(alerta = 'no');
         } else {
             Swal.mixin({
                 toast: true,
@@ -308,7 +312,7 @@ const eliminarMateria = async (materia_id) => {
 }
 
 
-formulario.addEventListener('submit', guardarAlumno)
-btnBuscar.addEventListener('click', getAlumnos)
+formulario.addEventListener('submit', guardarMateria)
+btnBuscar.addEventListener('click', getMaterias)
 btnModificar.addEventListener('click', modificar)
 btnCancelar.addEventListener('click', cancelar)

@@ -26,7 +26,7 @@ class Materias extends Conexion{
 
     public function buscar()
     {
-        $sql = "SELECT FROM Materias where materia_situacion = 1 ";
+        $sql = "SELECT * FROM Materias where materia_situacion = 1 ";
 
         if($this->materia_nombre != ''){
             $sql .= " AND materia_nombre like '%$this->materia_nombre%' ";
